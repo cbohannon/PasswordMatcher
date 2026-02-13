@@ -1,45 +1,46 @@
 package com.generic;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PasswordMatcherTest {
+    private final PrintStream originalOut = System.out;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() {
         System.setOut(new PrintStream(outContent));
     }
 
     @Test
-    public void mainWithValidInput() throws Exception {
+    void mainWithValidInput() {
         PasswordMatcher.main(new String[]{"aB1_"});
 
         assertTrue(outContent.toString().contains("Password is: aB1_"));
     }
 
     @Test
-    public void mainWithDefaultInput() throws Exception {
+    void mainWithDefaultInput() {
         PasswordMatcher.main(new String[]{});
 
         assertTrue(outContent.toString().contains("Password is: ABc12_"));
     }
 
     @Test
-    public void mainWithInvalidInput() throws Exception {
+    void mainWithInvalidInput() {
         PasswordMatcher.main(new String[]{"***"});
 
-        assertTrue(outContent.toString().isEmpty());
+        assertTrue(outContent.toString().contains("Unsupported characters in password"));
     }
 
-    @After
-    public void tearDown() throws Exception {
-        System.setOut(null);
+    @AfterEach
+    void tearDown() {
+        System.setOut(originalOut);
     }
 }
