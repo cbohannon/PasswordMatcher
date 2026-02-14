@@ -9,7 +9,7 @@ public class PasswordMatcher {
     private static final StopWatch stopWatch = new StopWatch();
 
     public static void main(String[] args) {
-        String password = "ABc12_";
+        String password = "_ABc12";
         if (args.length != 0) {
             password = args[0];
         }
